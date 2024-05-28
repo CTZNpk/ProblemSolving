@@ -14,7 +14,6 @@ public:
   static vector<string> wordBreak(string s, vector<string> &wordDict) {
     // INITIALIZING SUFFIX TREEE
     suffixTreeNode *start = new suffixTreeNode;
-    start->isEnd = false;
     for (string str : wordDict) {
       int n = str.length();
       suffixTreeNode *curr = start;
