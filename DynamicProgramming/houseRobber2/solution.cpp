@@ -11,6 +11,9 @@ public:
     if (n == 1) {
       return nums[0];
     }
+    if (n == 2) {
+      return max(nums[0], nums[1]);
+    }
     vector<vector<int>> dp(n, vector(2, 0));
     dp[0][0] = nums[0];
     dp[0][1] = 0;
