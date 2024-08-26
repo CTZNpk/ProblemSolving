@@ -5,22 +5,18 @@ for _ in range(t):
     s = input()
 
     def sol():
-        listS = [0 for x in range(26)]
+        listS = list(s)
+        listS.sort()
+        answer = ""
+        i = 0
+        j = n-1
+        while i <= j:
+            answer += s[i]
+            i += 1
+            if i <= j:
+                answer += s[j]
+                j -= 1
 
-        for i in s:
-            listS[ord(i) - ord('a')] += 1
-
-        ans = ""
-
-        while True:
-            count = 0
-            for i in range(26):
-                if listS[i] > 0:
-                    count += 1
-                    ans += chr(i + ord('a'))
-                    listS[i] -= 1
-            if count == 0:
-                break
-        return ans
+        return answer
 
     print(sol())
