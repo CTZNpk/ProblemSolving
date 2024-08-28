@@ -8,7 +8,6 @@ for _ in range(t):
         sum = 0
         a.sort()
 
-
         curSum = 0
         i = 0
         j = 0
