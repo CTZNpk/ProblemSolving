@@ -9,13 +9,11 @@ for _ in range(t):
     b.sort()
 
     def sol(n, b, p):
-        maxi = max(b)
-        mini = min(b)
 
-        if p < mini:
-            return mini - 1
-        elif p > maxi:
-            return n - maxi
+        if p < b[0]:
+            return b[0] - 1
+        elif p > b[-1]:
+            return n - b[-1]
         else:
             k = bisect.bisect_left(b, p)
             clLeft = b[k-1]
