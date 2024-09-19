@@ -7,9 +7,9 @@ for _ in range(t):
     p = list(map(int, input().split()))
 
     def recurDfs(adj, curr, val):
-        if curr not in adj and a[curr] < val:
+        if adj[curr] is None and a[curr] < val:
             return False
-        if curr not in adj:
+        if adj[curr] is None:
             return True
 
         if curr == 0:
@@ -23,7 +23,7 @@ for _ in range(t):
         return True
 
     def sol():
-        adj = {}
+        adj = [None] * n
 
         for i in range(n-1):
             if not p[i]-1 in adj:

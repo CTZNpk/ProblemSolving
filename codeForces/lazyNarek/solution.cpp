@@ -1,56 +1,43 @@
-
-
 #include <iostream>
-#include <set>
+#include <vector>
 using namespace std;
-
-void sol() {
-  int n, m;
-  cin >> n >> m;
-
-  int tScore = 0;
-  string ans = "narek";
-  set<char> narek;
-  narek.insert('n');
-  narek.insert('a');
-  narek.insert('r');
-  narek.insert('e');
-  narek.insert('k');
-  for (int i = 0; i < n; i++) {
-    int curScore = 0;
-    int cw = 0;
-    for (int j = 0; j < m; j++) {
-      char k;
-      cin >> k;
-      if (ans[cw] == k) {
-        cw += 1;
-        if (cw == 5) {
-          curScore += 5;
-          cw = 0;
-        }
-      } else {
-        if (narek.count(k)) {
-          curScore -= 1;
-        }
-      }
-    }
-    if (cw != 0) {
-      curScore -= cw;
-    }
-    if (curScore > 0) {
-      tScore += curScore;
-    }
-  }
-  cout << tScore << "\n";
-}
 
 int main() {
   cin.tie(nullptr);
   ios::sync_with_stdio(false);
+  int tt;
+  cin >> tt;
+  string s = "narek";
 
-  int t;
-  cin >> t;
-  while (t--) {
-    sol();
+  while (tt--) {
+    int n, m;
+    cin >> n >> m;
+    vector<string> a(n);
+    for (auto &i : a)
+      cin >> i;
+
+    vector<vector<int>> dp(n, vector<int>(5, -1));
+
+    auto f = [&](int i, int j, auto &&self) {
+      if (i == n)
+        return -2 * j;
+      if (dp[i][j] != -1)
+        return dp[i][j];
+
+      int notTake = self(i + 1, j, self);
+      int take = 0;
+      int origJ = j;
+      for (auto &k : a[i]) {
+        if (k == s[j]) {
+          j = (j + 1) % 5, take++;
+        } else if (k == 'n' || k == 'a' || k == 'r' || k == 'e' || k == 'k') {
+          take--;
+        }
+      }
+      take += self(i + 1, j, self);
+      return dp[i][origJ] = max(take, notTake);
+    };
+
+    cout << f(0, 0, f) << "\n";
   }
 }
