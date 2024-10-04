@@ -4,8 +4,29 @@ using namespace std;
 
 #define ll long long
 
-void djikstra(int start, vector<ll> &dist,
-              vector<vector<pair<int, int>>> &adj) {
+// void djikstra(int start, vector<ll> &dist,
+//               vector<vector<pair<int, int>>> &adj) {
+//   priority_queue<pair<ll, int>> pq;
+//   pq.push({0, start});
+//   dist[start] = 0;
+//   while (pq.size()) {
+//     pair<ll, int> curr = pq.top();
+//     pq.pop();
+//     ll d = -curr.first;
+//     int u = curr.second;
+//     if (dist[u] < d)
+//       continue;
+//     for (pair<int, int> edge : adj[u]) {
+//       int v = edge.first, w = edge.second;
+//       if (dist[v] > d + w) {
+//         dist[v] = d + w;
+//         pq.push({-d - w, v});
+//       }
+//     }
+//   }
+// }
+
+void djikstra(int start, vector<ll> &dist, vector<vector<pair<int, int>>> adj) {
   priority_queue<pair<ll, int>> pq;
   pq.push({0, start});
   dist[start] = 0;
@@ -14,10 +35,12 @@ void djikstra(int start, vector<ll> &dist,
     pq.pop();
     ll d = -curr.first;
     int u = curr.second;
-    if (dist[u] < d)
+    if (dist[u] < d) {
       continue;
-    for (pair<int, int> edge : adj[u]) {
-      int v = edge.first, w = edge.second;
+    }
+    for (auto edge : adj[u]) {
+      int v = edge.first;
+      int w = edge.second;
       if (dist[v] > d + w) {
         dist[v] = d + w;
         pq.push({-d - w, v});
