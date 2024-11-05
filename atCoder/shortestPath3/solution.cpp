@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <queue>
 
 using namespace std;
 
@@ -25,11 +26,11 @@ using namespace std;
 //     }
 //   }
 // }
+//
 
 void djikstra(int start, vector<ll> &dist, vector<vector<pair<int, int>>> adj) {
   priority_queue<pair<ll, int>> pq;
   pq.push({0, start});
-  dist[start] = 0;
   while (pq.size()) {
     pair<ll, int> curr = pq.top();
     pq.pop();
@@ -38,16 +39,41 @@ void djikstra(int start, vector<ll> &dist, vector<vector<pair<int, int>>> adj) {
     if (dist[u] < d) {
       continue;
     }
-    for (auto edge : adj[u]) {
+
+    for (auto &edge : adj[u]) {
       int v = edge.first;
-      int w = edge.second;
-      if (dist[v] > d + w) {
-        dist[v] = d + w;
+      ll w = edge.second;
+      if (dist[v] > w + d) {
+        dist[v] = w + d;
         pq.push({-d - w, v});
       }
     }
   }
 }
+
+// void djikstra(int start, vector<ll> &dist, vector<vector<pair<int, int>>>
+// adj) {
+//   priority_queue<pair<ll, int>> pq;
+//   pq.push({0, start});
+//   dist[start] = 0;
+//   while (pq.size()) {
+//     pair<ll, int> curr = pq.top();
+//     pq.pop();
+//     ll d = -curr.first;
+//     int u = curr.second;
+//     if (dist[u] < d) {
+//       continue;
+//     }
+//     for (auto edge : adj[u]) {
+//       int v = edge.first;
+//       int w = edge.second;
+//       if (dist[v] > d + w) {
+//         dist[v] = d + w;
+//         pq.push({-d - w, v});
+//       }
+//     }
+//   }
+// }
 
 int main(int argc, char *argv[]) {
   int n, m;
