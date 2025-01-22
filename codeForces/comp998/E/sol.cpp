@@ -7,55 +7,72 @@ using namespace std;
 #define all(v) v.begin(), v.end()
 #define vll vector<ll>
 
-void findComponents(int node, vector<vector<int>> &adj, vector<bool> &visited,
-                    vector<int> &component) {
-  visited[node] = true;
-  component.push_back(node);
-  for (int neighbor : adj[node]) {
-    if (!visited[neighbor]) {
-      findComponents(neighbor, adj, visited, component);
-    }
-  }
-}
+struct DSU {
+  vi f, size;
+  DSU() {}
 
-vector<vector<int>> getComponents(int n, vector<vector<int>> &adj) {
-  vector<bool> visited(n + 1, false);
-  vector<vector<int>> components;
-
-  for (int i = 1; i <= n; ++i) {
-    if (!visited[i]) {
-      vector<int> component;
-      findComponents(i, adj, visited, component);
-      components.push_back(component);
-    }
+  DSU(int n) {
+    f.resize(n);
+    iota(all(f), 0);
+    size.assign(n, 1);
   }
-  return components;
-}
+
+  int find(int x) {
+    while (x != f[x]) {
+      x = f[x] = f[f[x]];
+    }
+    return x;
+  }
+
+  bool isSame(int a, int b) { return find(a) == find(b); }
+
+  bool merge(int a, int b) {
+    int x = find(a);
+    int y = find(b);
+    if (x == y) {
+      return false;
+    }
+    if (size[x] > size[y]) {
+      swap(x, y);
+    }
+    size[x] += size[y];
+    f[y] = x;
+    return true;
+  }
+};
 
 void sol() {
   int n, m1, m2;
   cin >> n >> m1 >> m2;
-  vector<vi> f(n + 1);
+  vector<pair<int, int>> f;
   for (int i = 0; i < m1; i++) {
     int u, v;
     cin >> u >> v;
-    f[u].push_back(v);
-    f[v].push_back(u);
+    u--, v--;
+    f.push_back({u, v});
   }
-  vector<vi> g(n + 1);
+  DSU g(n);
+  int cg = n;
   for (int i = 0; i < m2; i++) {
     int u, v;
     cin >> u >> v;
-    g[u].push_back(v);
-    g[v].push_back(u);
+    u--;
+    v--;
+    cg -= g.merge(u, v);
   }
 
-  auto componentsF = getComponents(n, f);
-  auto componentsG = getComponents(n, g);
-
-  int operations = abs((int)componentsF.size() - (int)componentsG.size());
-
-  cout << operations << endl;
+  int cf = n;
+  DSU fg(n);
+  int ans = 0;
+  for (auto [u, v] : f) {
+    if (g.isSame(u, v)) {
+      cf -= fg.merge(u, v);
+    } else {
+      ans++;
+    }
+  }
+  ans += cf - cg;
+  cout << ans << "\n";
 }
 
 int main(int argc, char *argv[]) {
