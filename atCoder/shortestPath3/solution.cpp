@@ -28,7 +28,8 @@ using namespace std;
 // }
 //
 
-void djikstra(int start, vector<ll> &dist, vector<vector<pair<int, int>>> adj) {
+void djikstra(int start, vector<ll> &dist,
+              vector<vector<pair<int, int>>> &adj) {
   priority_queue<pair<ll, int>> pq;
   pq.push({0, start});
   while (pq.size()) {

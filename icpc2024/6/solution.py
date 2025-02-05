@@ -24,6 +24,7 @@ def tree_properties(v, adj):
 
     conn = {node: len(adj[node]) for node in range(v)}
     conn = sorted(conn.values(), reverse=True)
+    print(conn)
     hi = conn[0]
 
     if len(conn) > 1:

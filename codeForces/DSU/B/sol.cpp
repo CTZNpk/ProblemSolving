@@ -19,7 +19,7 @@ struct DSU {
   }
 
   int find(int a) {
-    while (a) {
+    while (a != f[a]) {
       a = f[a] = f[f[a]];
     }
     return a;
